@@ -13,12 +13,10 @@ module register
         for (i = 0; i < BIT_COUNT; i = i + 1) begin 
             dlatch dl( 
                 .D(data[i]),
-                .enabled(store)
+                .enabled(store),
                 .reset(0), // never reset
-                .Q(memory[i]),
+                .Q(memory[i])
             );
         end
     endgenerate
-
 endmodule
-

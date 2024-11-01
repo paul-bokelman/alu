@@ -12,10 +12,9 @@ module registers
     
     // assign store bits (one-hot)
     always @(*) begin
-        stores ={REGISTERS_COUNT{1'b0}}; // reset all bits
+        stores = {REGISTERS_COUNT{1'b0}}; // reset all bits
         stores[address] = store; // update address with store value
     end
-
     // generate required registers
     genvar i;
     generate 
@@ -27,5 +26,4 @@ module registers
             );
         end
     endgenerate
-
 endmodule

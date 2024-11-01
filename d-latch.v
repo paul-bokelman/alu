@@ -6,7 +6,6 @@ module dlatch(
     output NotQ
 );
     assign NotQ = ~Q;
-
     always @(*) begin
         // Reset -> set value to 0
         if (reset) begin
@@ -18,4 +17,3 @@ module dlatch(
         // When not enabled, Q retains its value
     end
 endmodule
-

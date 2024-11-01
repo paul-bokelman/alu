@@ -4,7 +4,7 @@ module top
 )
 (
     input [15:0] sw, 
-    output [15:0] led
+    output [15:0] led,
     input btnC, // send operation (rising clock edge)
     input btnU, // reset button
     input clk, // 100 MHz board clock
@@ -12,38 +12,32 @@ module top
     output [6:0] seg // 7seg segments
 );
     `include "operations.v"
-
     reg[7:0] Y;
     wire div_clock;
-
     clock_div #(.DIVIDE_BY(DIVIDE_BY)) cd(
         .clock(clk),
         .reset(btnU),
         .div_clock(div_clock)
     );
-
     // assign inputs to memory values
     reg [7:0] memories[1:0];
-
     // initialize registers
     registers regs(
         .data(sw[15:8]),
         .store(0),
-        .address(sw),
+        .address(sw[0]),
         .memories(memories)
     );
     
     // define register memories for better readability
-    `define A memories[0];
-    `define B memories[1];
-
+    `define A memories[0]
+    `define B memories[1]
     // reset all values
     always @(posedge clk, posedge btnU) begin
         load(1'b0, 8'b00000000, memories); // reset a
         load(1'b1, 8'b00000000, memories); // reset b
         Y = 8'b00000000; // reset Y
     end
-
     // multiplexer to handle operation code
     always @(posedge clk, posedge btnC) begin
         case (sw[3:0]) // case on op code
@@ -65,14 +59,12 @@ module top
             4'b1111: load(1'b0, sw[15:8], memories); // Store data in A 
         endcase
     end
-
     // display operation and 8bit output (Y) on display
     seven_seg_scanner sss(
         .div_clock(div_clock),
         .reset(btnC),
         .anode(an)
     );
-
     seven_seg_decoder ssd(
         .opCode(sw[3:0]),
         .lowerBits(Y[3:0]),
@@ -80,5 +72,4 @@ module top
         .segs(seg),
         .anode(an)
     );
-
 endmodule

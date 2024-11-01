@@ -3,7 +3,6 @@ module seven_seg_scanner(
     input reset,
     output [3:0] anode
 );
-
     reg [1:0] count;
    
     always @ (posedge div_clock or posedge reset) begin
@@ -14,7 +13,5 @@ module seven_seg_scanner(
            count <= count + 1;
         end
     end
-
     assign anode = ~(1 << count);
-
 endmodule

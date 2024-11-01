@@ -6,15 +6,13 @@ module seven_seg_decoder(
     output reg [6:0] segs
 );
     reg [3:0] selected;
-
     always @(*) begin
       case (anode)
-         'b1110: selected <= opCode;
-         'b1011: selected <= lowerBits;
-         'b0111: selected <= upperBits;
+         4'b1110: selected <= opCode;
+         4'b1011: selected <= lowerBits;
+         4'b0111: selected <= upperBits;
       endcase
     end
-
     always @(*) begin
         case(selected)
             //            GFEDCBA
@@ -24,7 +22,7 @@ module seven_seg_decoder(
             3: segs  = 7'b0110000;        
             4: segs  = 7'b0011001;        
             5: segs  = 7'b0010010;        
-            6: segs  = 7'b0000010;        
+            6: segs  = 7'b0000010;
             7: segs  = 7'b1111000;        
             8: segs  = 7'b0000000;
             9: segs  = 7'b0010000;        
@@ -36,5 +34,4 @@ module seven_seg_decoder(
             15: segs = 7'b0001110;       
         endcase
     end
-
 endmodule
